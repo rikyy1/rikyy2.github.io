@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แบบทดสอบสติปัญญาระดับโลก</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.box{
+    max-width: 700px;
+    margin: auto;
+    background: #222;
+    padding: 25px;
+    border-radius: 15px;
+}
+
+button{
+    padding: 12px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+button:hover{
+    transform: scale(1.05);
+}
+
+#result{
+    font-size: 24px;
+    margin-top: 20px;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+    <h1>🎓 แบบทดสอบสติปัญญาระดับโลก</h1>
+
+    <h2 id="question"></h2>
+
+    <button onclick="answer(0)" id="a"></button>
+    <button onclick="answer(1)" id="b"></button>
+
+    <p id="feedback"></p>
+</div>
+
+<script>
+
+const questions = [
+
+{
+q:"คุณคิดว่าตัวเองฉลาดไหม?",
+a:"ฉลาด",
+b:"ไม่ฉลาด",
+fa:"มั่นใจเกินไป 😏",
+fb:"ยอมแพ้ง่ายจัง 🤣"
+},
+
+{
+q:"คุณเคยโกหกไหม?",
+a:"เคย",
+b:"ไม่เคย",
+fa:"จับได้แล้ว 😎",
+fb:"นั่นไง กำลังโกหก 🤣"
+},
+
+{
+q:"คุณหล่อ/สวยไหม?",
+a:"ใช่",
+b:"ไม่ใช่",
+fa:"หลงตัวเอง 🤭",
+fb:"ขาดความมั่นใจ 😂"
+},
+
+{
+q:"คุณชอบนอนไหม?",
+a:"ชอบ",
+b:"ไม่ชอบ",
+fa:"ขี้เซา 😴",
+fb:"หุ่นยนต์หรือเปล่า 🤖"
+},
+
+{
+q:"คุณคิดว่าคุณตอบถูกกี่ข้อ?",
+a:"หลายข้อ",
+b:"ไม่มีสักข้อ",
+fa:"คิดไปเอง 🤣",
+fb:"ข้อนี้ตอบผิด 😆"
+},
+
+{
+q:"ถ้ามีคนให้เงิน 1 ล้านบาท จะรับไหม?",
+a:"รับ",
+b:"ไม่รับ",
+fa:"เห็นแก่เงิน 😏",
+fb:"แกล้งเท่ 😆"
+},
+
+{
+q:"คุณเป็นคนดีไหม?",
+a:"เป็น",
+b:"ไม่เป็น",
+fa:"ใครรับรอง? 🤣",
+fb:"ยอมรับง่ายเกิน 😂"
+},
+
+{
+q:"คุณคิดว่าผมกวนไหม?",
+a:"กวน",
+b:"ไม่กวน",
+fa:"รู้ทัน 😎",
+fb:"เดี๋ยวจะกวนกว่านี้ 🤣"
+},
+
+{
+q:"ข้อนี้มีคำตอบถูกไหม?",
+a:"มี",
+b:"ไม่มี",
+fa:"ผิด 🤣",
+fb:"ก็ผิด 🤣"
+},
+
+{
+q:"คุณแน่ใจไหม?",
+a:"แน่ใจ",
+b:"ไม่แน่ใจ",
+fa:"ผิด 😆",
+fb:"ผิดเหมือนกัน 🤣"
+}
+
+];
+
+let current = 0;
+
+function showQuestion(){
+
+    if(current >= questions.length){
+
+        document.querySelector(".box").innerHTML = `
+        <h1>📊 กำลังตรวจข้อสอบ...</h1>
+        <h2 id="loading">0%</h2>
+        `;
+
+        let p = 0;
+
+        let timer = setInterval(()=>{
+
+            p += 10;
+
+            document.getElementById("loading").innerHTML = p + "%";
+
+            if(p >= 100){
+
+                clearInterval(timer);
+
+                setTimeout(()=>{
+
+                    document.querySelector(".box").innerHTML = `
+                    <h1>🎉 ผลการทดสอบ 🎉</h1>
+
+                    <h2>❌ ตอบผิด 10 ข้อ</h2>
+
+                    <h3>❌ Aผมหมดความอดทน</h3>
+
+                    <h3>❌ ระบบสับสนกับคำตอบของคุณ</h3>
+
+                    <br>
+
+                    <h2>🏆 รางวัลพิเศษ</h2>
+
+                    <h1>ผู้เสียเวลาแห่งปี 😂</h1>
+
+                    <br>
+
+                    <button onclick="location.reload()">
+                    🔄 ทำใหม่
+                    </button>
+                    `;
+
+                },1000);
+            }
+
+        },200);
+
+        return;
+    }
+
+    document.getElementById("question").innerHTML =
+    `ข้อ ${current+1}<br><br>${questions[current].q}`;
+
+    document.getElementById("a").innerHTML =
+    questions[current].a;
+
+    document.getElementById("b").innerHTML =
+    questions[current].b;
+
+    document.getElementById("feedback").innerHTML = "";
+}
+
+function answer(choice){
+
+    if(choice==0){
+        document.getElementById("feedback").innerHTML =
+        questions[current].fa;
+    }
+    else{
+        document.getElementById("feedback").innerHTML =
+        questions[current].fb;
+    }
+
+    setTimeout(()=>{
+        current++;
+        showQuestion();
+    },1200);
+}
+
+showQuestion();
+
+</script>
+
+</body>
+</html>
